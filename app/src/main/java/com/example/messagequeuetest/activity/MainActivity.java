@@ -8,25 +8,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messagequeuetest.R;
 import com.example.messagequeuetest.app.AppConstant;
-import com.example.messagequeuetest.motherboardsocket.MyStack;
 import com.example.messagequeuetest.motherboardsocket.PushBlockQueue;
 import com.example.messagequeuetest.util.ToastUtil;
 import com.example.x6.serialportlib.SerialPort;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     Button sendClearZero, sendRealTime;
     TextView getInfo;
     SerialPort serialttyS0;//串口对象
+    int n = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +95,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private static boolean mBackKeyPressed = false;//记录是否有首次按键
+
+    @Override
+    public void onBackPressed() {
+        if (!mBackKeyPressed) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            Log.e("返回键触发次数", String.valueOf(n++));
+            mBackKeyPressed = true;
+            new Timer().schedule(new TimerTask() {//延时两秒，如果超出则擦错第一次按键记录
+                @Override
+                public void run() {
+                    mBackKeyPressed = false;
+                }
+            }, 2000);
+        } else {//退出程序
+            this.finish();
+//            System.exit(0);
+        }
+    }
 
     @Override
     protected void onDestroy() {
