@@ -51,7 +51,7 @@ public class MyStack<T> {
     }
 
     public void addMsg(T obj) {
-        if (storage.size() < 20) {//保障下队列上限好了
+        if (storage.size() < 10) {//保障下队列上限好了
             storage.add(obj);
         }
     }

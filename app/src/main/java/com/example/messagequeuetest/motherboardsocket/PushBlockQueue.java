@@ -23,7 +23,6 @@ public class PushBlockQueue {
     private static PushBlockQueue pbq = new PushBlockQueue();//单例
     public static MyStack<String> stack = new MyStack<String>();
     private boolean flag = false;
-    Object obj;
 
     private PushBlockQueue() {
     }
@@ -45,12 +44,10 @@ public class PushBlockQueue {
             @Override
             public void run() {
                 while (flag) {
-//                        obj = take();//使用阻塞模式获取队列消息
                     //将获取消息交由线程池处理
-                    if (stack.peek() != null) {
+                    if (stack.peek() != null) {//先这样判断可以节约资源内存
                         es.execute(new PushBlockQueueHandler(stack.poll(), serialPort, handler));
                     }
-//                        obj = null;
                 }
             }
         }).start();
@@ -62,6 +59,5 @@ public class PushBlockQueue {
      */
     public void stop() {
         this.flag = false;
-        obj = null;
     }
 }

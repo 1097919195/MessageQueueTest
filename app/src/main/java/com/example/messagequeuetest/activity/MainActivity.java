@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }, 2000);
         } else {//退出程序
             this.finish();
-//            System.exit(0);
+            System.exit(0);
         }
     }
 
