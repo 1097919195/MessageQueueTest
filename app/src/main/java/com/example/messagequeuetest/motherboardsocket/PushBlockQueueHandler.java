@@ -40,7 +40,7 @@ public class PushBlockQueueHandler implements Runnable {
         Log.e("处理请求:", obj.toString());
         try {
             serialPort.sendData(obj.toString(), "HEX");
-            Thread.sleep(200);//发完等待一下，直接读取可能会存在内存中
+            Thread.sleep(100);//发完等待一下，直接读取可能会存在内存中
             int size = serialPort.receiveData(readData);
             if (size > 0) {
                 int tmpSize = size * 2;
